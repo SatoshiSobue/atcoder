@@ -5,7 +5,6 @@
 using namespace std;
 
 int main(void) {
-    int N, K; cin >> N >> K;
-    int answer = (N % K) != 0 ? 1 : 0;
-    cout << answer << endl;
+    int a,b,c; cin >> a >> b >> c;
+    cout << a * b / 2 << endl;
 }
