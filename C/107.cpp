@@ -4,33 +4,52 @@
 #include <math.h> 
 using namespace std;
 int main(void){
-    int N, K; cin >> N >> K;
-    vector<int> x(N);
-    int i = 0;
-    int answer = pow(10, 9);
-    int sum = 0;
-    int sum2 = 0;
-    while(i < N){
-        cin >> x[i];
-        i++;
-    }
-    K--;
-    i = 0;
-    while (i < N-K) {
-        sum = 0;
-        sum2 = 0;
-        if (x[i] < 0 && x[i+K] >= 0) {
-            sum = x[i + K] - x[i] * 2;
-            sum2 = x[i + K] * 2 - x[i];
-            sum = min(sum, sum2);
-        } else if (x[i] < 0) {
-            sum = abs(x[i]);
-        } else {
-            sum = x[i + K];
+    int h, w, k; cin >> h >> w >> k;
+    vector<vector<char> > m(h, vector<char>(w));
+    vector<vector<char> > p(h, vector<char>(w));
+    int i = 0; int j = 0; 
+    int ans = 0;
+    while (h > i) {
+        j = 0;
+        while (w > j) {
+            cin >> m.at(i).at(j);
+            j++;
         }
-        answer = min(answer, sum);
         i++;
     }
-    
-    cout << answer << endl;
+    for (int bit = 0; bit < (1<<h); ++bit) {
+        for (int bit2 = 0; bit2 < (1<<w); ++bit2) {
+            p = m;
+            for (int i = 0; i < h; ++i) {
+                if (bit & (1<<i)) { // 列挙に i が含まれるか
+                    int c = 0;
+                    while(c < w) {
+                        p.at(i).at(c) = 'a';
+                        c++;
+                    }
+                }
+            }
+            for (int i = 0; i < w; ++i) {
+                if (bit2 & (1<<i)) { // 列挙に i が含まれるか
+                    int c = 0;
+                    while(c < h) {
+                        p.at(c).at(i) = 'a';
+                        c++;
+                    }
+                }
+            }
+            int count = 0;
+            i = 0;
+            while (h > i) {
+                j = 0;
+                while (w > j) {
+                    if (p.at(i).at(j) == '#') count++;
+                    j++;
+                }
+                i++;
+            }
+            if (count == k) ans++;
+        }
+    }
+    cout << ans << endl;
 }
