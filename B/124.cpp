@@ -5,15 +5,15 @@
 using namespace std;
 int main(void){
     int N; cin >> N;
-    int max = 0;
-    int sum = 0;
+    vector<int> h(N);
     int i = 0;
+    int max = 0;
+    int ans = 0;
     while (i < N) {
-        int tmp;
-        cin >> tmp;
-        if (tmp > max) max = tmp;
-        sum += tmp;
+        cin >> h[i];
+        if (h[i] >= max) ans++;
+        if (max < h[i]) max = h[i];
         i++;
     }
-    max < sum - max ? cout << "Yes" << endl : cout << "No" << endl;
+    cout << ans << endl;
 }
