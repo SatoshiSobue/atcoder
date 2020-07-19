@@ -2,24 +2,49 @@
 #include <stdio.h>
 #include <vector> 
 #include <math.h> 
+#include <map> 
+#include <algorithm> 
 using namespace std;
 int main(void){
-    long long N, K; cin >> N >> K;
-    int i = 0;
-    int sum = 0;
-    while(i < N)  {
-        int tmp;
+    long long n, m; cin >> n >> m;
+    map<long long, long long> map;
+    vector<long long> v(n);
+    long long i = 0;
+    long long ans = 0;
+    while(i < n)  {
+        long long tmp;
         cin >> tmp;
-        sum += tmp;
+        if (map.count(tmp)) {
+            map[tmp]++;
+        } else {
+            map[tmp] = 1;
+            v.push_back(tmp);
+        }
         i++;
     }
     i = 0;
-    while(i < K)  {
-        int tmp;
-        cin >> tmp;
-        sum += tmp;
+    while(i < m)  {
+        long long b,c;
+        cin >> b >> c;
+        if (map.count(c)) {
+            map[c] += b;
+        } else {
+            map[c] = b;
+            v.push_back(c);
+        }
         i++;
     }
-    int ans = sum % 2 == 1 ? N * K - 1: N * K;
+    sort(v.begin(), v.end(), greater<long long>());
+    i = 0;
+    while(i < v.size() && n > 0) {
+        if (n > map[v[i]]) {
+            ans += v[i] * map[v[i]];
+            n -= map[v[i]];
+        } else {
+            ans += v[i] * n;
+            n = 0;
+        }
+        i++;
+    }
     cout << ans << endl;
 }
